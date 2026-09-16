@@ -4,6 +4,7 @@
 
 package com.mycompany.chatapplication;
 
+import java.util.Scanner;
 /**
  *
  * @author Student
@@ -11,6 +12,9 @@ package com.mycompany.chatapplication;
 public class ChatApplication {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        Scanner scanner = new Scanner(System.in);
+        Login ln = new Login();
+        Message messageanager = new Message();
+        
     }
 }
