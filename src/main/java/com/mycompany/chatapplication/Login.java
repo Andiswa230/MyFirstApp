@@ -14,4 +14,26 @@ public class Login {
     private String Firstname;
     private String Lastname;
     
+    
+    public boolean CheckUsername(String Username){
+        return Username != null && Username.contains("_")&& Username.length()<= 5;
+    
+    }
+    
+    public boolean CheckPassword(String Password){
+       if (Password == null || Password.length() < 8)return false;
+       
+       boolean hasUpper = !Password.equals(Password.toLowerCase());
+       boolean hasDigit = Password.matches(".*\\d.*");
+       boolean hasSpecial = Pattern.compile("^a-zA-Z0-9").matcher(Password).find();
+       
+       return hasUpper && hasDigit && hasSpecial;
+    
+    }
+    public boolean chechCellPhoneNumber(String cellNumber){
+        if (cellNumber == null) return false;
+        return cellNumber.matches("^\\+27\\d{9}$");
+    }
+    
+    
 }
