@@ -16,5 +16,8 @@ public class ChatApplication {
         Login ln = new Login();
         Message messageanager = new Message();
         
+        String Usernanme = " ";
+        String  PAssword = " ";
+        String  Phone= "";
     }
 }
