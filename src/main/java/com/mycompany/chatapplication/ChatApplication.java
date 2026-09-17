@@ -70,7 +70,39 @@ public class ChatApplication {
                     break;
 
     }
-}
-         
+            
+            
+             switch (option){
+                case 2:
+                    System.out.println("\n===== LOGIN =====");
+                    boolean loggedIn = false;
+                    int attempts = 3;
+
+                    while (attempts > 0 && !loggedIn) {
+                        System.out.print("Enter username: ");
+                        String loginUser = scanner.nextLine();
+
+                        System.out.print("Enter password: ");
+                        String loginPass = scanner.nextLine();
+
+                        loggedIn = ln.loginUser(loginUser, loginPass);
+                        System.out.println(ln.returnLoginStatus(loggedIn));
+
+                        if (!loggedIn) {
+                            attempts--;
+                            System.out.println("Attempts remaining: " + attempts);
+                        }
+                        if (!loggedIn){
+                        System.out.println("login failed. too many incorrect attempts");
+                        break;
+                        }
+                        System.out.println("\nWelcome to QuickChat.");
+             
+                    }
+         }
     }
 }
+}
+
+         
+    
