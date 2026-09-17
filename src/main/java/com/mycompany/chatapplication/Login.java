@@ -21,7 +21,7 @@ public class Login {
     }
     
     public boolean CheckPassword(String Password){
-       if (Password == null || Password.length() < 8)return false;
+       if (Password == null || Password.length() >= 8)return false;
        
        boolean hasUpper = !Password.equals(Password.toLowerCase());
        boolean hasDigit = Password.matches(".*\\d.*");
@@ -58,6 +58,8 @@ public class Login {
 
     /**
      * Returns the formal login message status response.
+     * @param loginSuccessful
+     * @return 
      */
     public String returnLoginStatus(boolean loginSuccessful) {
         if (loginSuccessful) {
@@ -71,7 +73,7 @@ public class Login {
     public static boolean isValidUsername(String Username) {
         return Username.contains("_") && Username.length() <= 5;
     }
-
+// Remove this  and add it to thre has Upper < Has Digit if the the code dosent work properly
     // Password: 8+ chars, capital letter, number, special character
     public static boolean isValidPassword(String password) {
         return password.length() >= 8 &&
