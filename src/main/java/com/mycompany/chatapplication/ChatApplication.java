@@ -97,6 +97,64 @@ public class ChatApplication {
                         break;
                         }
                         System.out.println("\nWelcome to QuickChat.");
+                    case 3:
+                    boolean storedDashboard = true;
+                    while (storedDashboard) {
+                        System.out.println("\n===== STORED MESSAGES DASHBOARD =====");
+                        System.out.println("a. Display Sender and Recipient of all stored messages");
+                        System.out.println("b. Display longest stored message");
+                        System.out.println("c. Search for a message ID");
+                        System.out.println("d. Search all messages for a particular recipient");
+                        System.out.println("e. Delete a message using Message Hash");
+                        System.out.println("f. Display full Stored Report");
+                        System.out.println("g. Back to Main Menu");
+                        System.out.print("Selection option letter: ");
+                       
+                        String selection = scanner.nextLine().trim().toLowerCase();
+                        switch (selection) {
+                            case "a":
+                                messageManager.displayStoredSendersAndRecipients();
+                                break;
+                            case "b":
+                                messageManager.displayLongestStoredMessage();
+                                break;
+                            case "c":
+                                System.out.print("Enter Message ID to search: ");
+                                String targetId = scanner.nextLine();
+                                messageManager.searchByMessageId(targetId);
+                                break;
+                            case "d":
+                                System.out.print("Enter Recipient cell number (+27...): ");
+                                String targetRecip = scanner.nextLine();
+                                messageManager.searchStoredByRecipient(targetRecip);
+                                break;
+                            case "e":
+                                System.out.print("Enter exact Message Hash string to delete: ");
+                                String targetHash = scanner.nextLine();
+                                System.out.println(messageManager.deleteMessageByHash(targetHash));
+                                break;
+                            case "f":
+                                messageManager.displayStoredReport();
+                                break;
+                            case "g":
+                                storedDashboard = false;
+                                break;
+                            default:
+                                System.out.println("Invalid selection option.");
+                        }
+                    }
+                    break;
+
+                case 4:
+                    System.out.println("Thank you for using the Chat Application.");
+                    scanner.close();
+                    System.exit(0);
+                    break;
+
+                default:
+                    System.out.println("Invalid option. Please try again.");
+
+
              
                     }
          }
