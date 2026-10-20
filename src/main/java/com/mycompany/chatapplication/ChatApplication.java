@@ -10,16 +10,19 @@ import java.util.Scanner;
  * @author Student
  */
 public class ChatApplication {
-
-    public static void main(String[] args) {
+  public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Login ln = new Login();
-        
-        String Username = " ";
-        String  Password = " ";
-        String  Phone= "";
-        
-         while (true) {
+        Message messageManager = new Message();
+
+        // Load JSON file elements safely into memory initialization
+        messageManager.loadStoredMessagesFromJsonFile("stored.json");
+
+        String username = "";
+        String password = "";
+        String phone = "";
+
+        while (true) {
             System.out.println("\n===== CHAT APPLICATION =====");
             System.out.println("1. Register");
             System.out.println("2. Login");
@@ -35,8 +38,8 @@ public class ChatApplication {
                     System.out.println("\n===== REGISTRATION =====");
                     while (true) {
                         System.out.print("Enter username: ");
-                        Username = scanner.nextLine();
-                        if (Login.isValidUsername(Username)) {
+                        username = scanner.nextLine();
+                        if (Login.isValidUsername(username)) {
                             System.out.println("Username successfully captured.");
                             break;
                         } else {
@@ -46,8 +49,8 @@ public class ChatApplication {
 
                     while (true) {
                         System.out.print("Enter password: ");
-                        Password = scanner.nextLine();
-                        if (Login.isValidPassword(Password)) {
+                        password = scanner.nextLine();
+                        if (Login.isValidPassword(password)) {
                             System.out.println("Password successfully captured.");
                             break;
                         } else {
@@ -57,8 +60,8 @@ public class ChatApplication {
 
                     while (true) {
                         System.out.print("Enter SA phone number (+27...): ");
-                        Phone = scanner.nextLine();
-                        if (Login.isValidPhoneNumber(Phone)) {
+                        phone = scanner.nextLine();
+                        if (Login.isValidPhoneNumber(phone)) {
                             System.out.println("Cell phone number successfully added.");
                             break;
                         } else {
@@ -66,13 +69,9 @@ public class ChatApplication {
                         }
                     }
 
-                    System.out.println(ln.registerUser(Username, Password, Phone));
+                    System.out.println(ln.registerUser(username, password, phone));
                     break;
 
-    }
-            
-            
-             switch (option){
                 case 2:
                     System.out.println("\n===== LOGIN =====");
                     boolean loggedIn = false;
@@ -92,12 +91,77 @@ public class ChatApplication {
                             attempts--;
                             System.out.println("Attempts remaining: " + attempts);
                         }
-                        if (!loggedIn){
-                        System.out.println("login failed. too many incorrect attempts");
+                    }
+
+                    if (!loggedIn) {
+                        System.out.println("Login failed. Too many incorrect attempts.");
                         break;
+                    }
+
+                    System.out.println("\nWelcome to QuickChat.");
+
+                    boolean messageMenu = true;
+                    while (messageMenu) {
+                        System.out.println("\n===== MESSAGE MENU =====");
+                        System.out.println("1. Send / Capture Messages");
+                        System.out.println("2. Logout");
+                        System.out.print("Choose an option: ");
+
+                        int option2 = scanner.nextInt();
+                        scanner.nextLine();
+
+                        if (option2 == 1) {
+                            System.out.print("How many messages would you like to enter? ");
+                            int messageCount = scanner.nextInt();
+                            scanner.nextLine();
+
+                            for (int i = 1; i <= messageCount; i++) {
+                                System.out.println("\n--- Message Entry " + i + " ---");
+                                String recipientPhone;
+
+                                while (true) {
+                                    System.out.print("Enter recipient phone number (+27...): ");
+                                    recipientPhone = scanner.nextLine();
+                                    if (messageManager.checkRecipientCell(recipientPhone)) {
+                                        break;
+                                    }
+                                    System.out.println("Invalid recipient number format.");
+                                }
+
+                                String messageBody;
+                                while (true) {
+                                    System.out.print("Enter message description: ");
+                                    messageBody = scanner.nextLine();
+                                    if (messageBody.length() <= 250) {
+                                        break;
+                                    } else {
+                                        System.out.println("Max 250 characters allowed.");
+                                    }
+                                }
+
+                                Message currentMsg = new Message(recipientPhone, messageBody);
+
+                                System.out.println("\nWhat would you like to do with this message?");
+                                System.out.println("1) Send Message\n2) Disregard Message\n3) Store Message to send later");
+                                System.out.print("Selection: ");
+                                int deliveryChoice = scanner.nextInt();
+                                scanner.nextLine();
+
+                                String actionStatus = currentMsg.SentMessage(deliveryChoice, username);
+                                System.out.println(actionStatus);
+                            }
+                            System.out.println("\nTotal messages tracked globally: " + messageManager.returnTotalMessagess());
+                        } else if (option2 == 2) {
+                            System.out.println("Logging out...");
+                            messageMenu = false;
+                        } else {
+                            System.out.println("Invalid choice.");
                         }
-                        System.out.println("\nWelcome to QuickChat.");
-                    case 3:
+                    }
+                    break;
+
+                case 3:
+                    // ================= STORED MESSAGES DASHBOARD (REQ 2 SUBMENU) =================
                     boolean storedDashboard = true;
                     while (storedDashboard) {
                         System.out.println("\n===== STORED MESSAGES DASHBOARD =====");
@@ -153,14 +217,10 @@ public class ChatApplication {
 
                 default:
                     System.out.println("Invalid option. Please try again.");
-
-
-             
-                    }
-         }
+            }
+        }
     }
 }
-}
-
+    
          
     
