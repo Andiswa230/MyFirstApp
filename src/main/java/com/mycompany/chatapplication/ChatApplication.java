@@ -55,6 +55,7 @@ public class ChatApplication {
                             break;
                         } else {
                             System.out.println("Password invalid. Requires 8+ chars, Uppercase, Number, Special character.");
+                            break;
                         }
                     }
 
